@@ -1,15 +1,31 @@
-## Put comments here that give an overall description of what your
-## functions do
+#This function utilizes a cache to reduce the cost of inverting a matrix.
 
-## Write a short comment describing this function
-
-makeCacheMatrix <- function(x = matrix()) {
-
+makeCacheMatrix <- function(x = matrix()){
+  m <- NULL
+  storeMatrix <- function(newValue){
+    x <<- newValue
+    m <<- NULL
+  }
+  returnMatrix <- function(){
+    x
+  }
+  invertMatrix <- function(solve){
+    m <<- solve
+  }
+  returnInverse <- function(){
+    m
+  }
+  list(storeMatrix = storeMatrix, returnMatrix = returnMatrix, invertMatrx = invertMatrix, returnInverse = returnInverse)
 }
 
-
-## Write a short comment describing this function
-
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+cacheSolve <- function(x, ...){
+  m <- x$returnInverse()
+  if(!is.null(m)){
+    message("Retrieving cached data.")
+    return(m)
+  }
+  data <- x$returnMatrix()
+  m <- solve(data)
+  x$invertMatrix(m)
+  m
 }
